@@ -202,8 +202,8 @@ if __name__ == '__main__':
                                                                        model=helper.target_model, is_poison=False,
                                                                        visualize=True, agent_name_key="global")
         csv_record.test_result.append(["global", temp_global_epoch, epoch_loss, epoch_acc, epoch_corret, epoch_total])
-        logger.info(f"Backdoor Accuracy (combine) at epoch {temp_global_epoch}: "
-            f"{epoch_corret}/{epoch_total} ({100.*epoch_acc_p:.2f}%)")
+        # logger.info(f"Backdoor Accuracy (combine) at epoch {temp_global_epoch}: "
+        #     f"{epoch_corret}/{epoch_total} ({100.*epoch_acc_p:.2f}%)")
 
 
         if len(csv_record.scale_temp_one_row)>0:
@@ -226,7 +226,7 @@ if __name__ == '__main__':
             csv_record.poisontriggertest_result.append(
                 ["global", "combine", "", temp_global_epoch, epoch_loss, epoch_acc_p, epoch_corret, epoch_total])
             logger.info(f"[Epoch {temp_global_epoch}] Backdoor Accuracy (combine): "
-            f"{epoch_corret}/{epoch_total} ({100.*epoch_acc_p:.2f}%)")
+            f"{epoch_corret}/{epoch_total} ({epoch_acc_p:.2f}%)")
             
             if helper.params['vis_trigger_split_test']:
                 helper.target_model.trigger_agent_test_vis(vis=vis, epoch=epoch, acc=epoch_acc_p, loss=None,
@@ -239,7 +239,7 @@ if __name__ == '__main__':
             else:  # distributed attack
                 for agent_name_key in helper.params['adversary_list']:
                     trigger_test_byname(helper, agent_name_key, vis, epoch)
-                    logger.info(f"Backdoor Accuracy (combine) at epoch {temp_global_epoch}: "f"{epoch_corret}/{epoch_total} ({100.*epoch_acc_p:.2f}%)")
+                    # logger.info(f"Backdoor Accuracy (combine) at epoch {temp_global_epoch}: "f"{epoch_corret}/{epoch_total} ({100.*epoch_acc_p:.2f}%)")
 
 
         helper.save_model(epoch=epoch, val_loss=epoch_loss)
