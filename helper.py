@@ -32,7 +32,7 @@ class Helper:
         self.params = params
         self.name = name
         self.best_loss = math.inf
-        self.folder_path = f'saved_models/model_{self.name}_{current_time}'
+        self.folder_path = f'saved_models/cifar_pretrain/model_last.pt'
         try:
             os.mkdir(self.folder_path)
         except FileExistsError:
