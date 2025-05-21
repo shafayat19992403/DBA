@@ -18,20 +18,20 @@ geom_median_maxiter: 10
 fg_use_memory: true
 participants_namelist: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 no_models: 10
-number_of_total_participants: 10
+number_of_total_participants: 100
 is_random_namelist: false
 is_random_adversary: false
 is_poison: true
 
 sampling_dirichlet: false
-dirichlet_alpha: 0.5
+dirichlet_alpha: 5000
 baseline: false # single-shot: false; multi-shot:true
 scale_weights_poison: 100
 #global lr:
 eta: 0.1 # single-shot: 0.1; multi-shot: 1
 
 # distributed attackers: (training img num : 606 - 591 - 568 - 557)
-adversary_list: [1, 4, 7]
+adversary_list: [1, 4, 7, 9]
 # centralized attacker: (training img num :602)
 #adversary_list: [95]
 
@@ -46,10 +46,10 @@ trigger_num: 4
 3_poison_pattern: [[3, 6], [3, 7], [3, 8], [3, 9]]
 
 # single shot - distributed attack:
-0_poison_epochs: [1, 2, 3, …, 70]
-1_poison_epochs: [1, 2, 3, …, 70]
-2_poison_epochs: [1, 2, 3, …, 70]
-3_poison_epochs: [1, 2, 3, …, 70]
+0_poison_epochs: [5]
+1_poison_epochs: [6]
+2_poison_epochs: [7]
+3_poison_epochs: [8]
 
 #single shot - centralized attack:
 #0_poison_epochs: [18]

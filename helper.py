@@ -237,16 +237,19 @@ class Helper:
 
         return weight_accumulator
 
-    def average_shrink_models(self, weight_accumulator, target_model, epoch_interval):
+    def average_shrink_models(self, weight_accumulator, target_model, epoch_interval, agents_num):
         """
         Perform FedAvg algorithm and perform some clustering on top of it.
 
         """
+        print("lengthof agents:" ,agents_num)
         for name, data in target_model.state_dict().items():
             if self.params.get('tied', False) and name == 'decoder.weight':
                 continue
-
-            update_per_layer = weight_accumulator[name] * (self.params["eta"] / self.params["no_models"])
+            
+            
+            # update_per_layer = weight_accumulator[name] * (self.params["eta"] / self.params["no_models"])
+            update_per_layer = weight_accumulator[name] * (self.params["eta"] / agents_num)
             # update_per_layer = weight_accumulator[name] * (self.params["eta"] / self.params["number_of_total_participants"])
 
             # update_per_layer = update_per_layer * 1.0 / epoch_interval

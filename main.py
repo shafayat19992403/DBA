@@ -24,6 +24,7 @@ import numpy as np
 import random
 import config
 import copy
+import defenses.pca_deflect
 
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -172,14 +173,38 @@ if __name__ == '__main__':
                                                                   is_poison=helper.params['is_poison'],
                                                                   agent_name_keys=agent_name_keys)
         logger.info(f'time spent on training: {time.time() - t}')
+        client_names   = list(epochs_submit_update_dict.keys())
+        client_weights = [updates[-1] for updates in epochs_submit_update_dict.values()]
+
+        client_weights_flat = defenses.pca_deflect.extract_client_weights(client_weights)
+        
+
+        outliers, _ = defenses.pca_deflect.apply_pca_to_weights(client_weights_flat, client_names, epoch, [])
+        print(outliers)
+
+        for bad in outliers:
+            epochs_submit_update_dict.pop(bad, None)   # drop their weight updates :contentReference[oaicite:0]{index=0}
+            num_samples_dict.pop(bad,         None)   # drop their sample counts  :contentReference[oaicite:1]{index=1}
+            if bad in agent_name_keys:
+                agent_name_keys.remove(bad)  
+                print("Removed Outlier's influence", bad) 
+
+        agents_num = len(agent_name_keys)
+
+         
         weight_accumulator, updates = helper.accumulate_weight(weight_accumulator, epochs_submit_update_dict,
                                                                agent_name_keys, num_samples_dict)
+        for bad in outliers:
+            if bad not in agent_name_keys:
+                agent_name_keys.append(bad)
+
+
         is_updated = True
         if helper.params['aggregation_methods'] == config.AGGR_MEAN:
             # Average the models
             is_updated = helper.average_shrink_models(weight_accumulator=weight_accumulator,
                                                       target_model=helper.target_model,
-                                                      epoch_interval=helper.params['aggr_epoch_interval'])
+                                                      epoch_interval=helper.params['aggr_epoch_interval'], agents_num=agents_num)
             num_oracle_calls = 1
         elif helper.params['aggregation_methods'] == config.AGGR_GEO_MED:
             maxiter = helper.params['geom_median_maxiter']

@@ -66,14 +66,15 @@ def extract_client_weights(state_dicts: List[Dict[str, torch.Tensor]]):
 def apply_pca_to_weights(client_weights, client_ids, rnd, flagged_malicious_clients):
     # client_weights is already numpy arrays here
     pca = PCA(n_components=2)
-    print(client_weights)
+    # print(client_weights)
     reduced_weights = pca.fit_transform(client_weights)
 
     # Extract PC1 values and reshape for clustering
     pc1_values = reduced_weights[:, 0].reshape(-1, 1)
     
     # Dynamic epsilon based on previous detections
-    eps_value = 1.2 if len(flagged_malicious_clients) > 0 else 1
+    # eps_value = 1.2 if len(flagged_malicious_clients) > 0 else 1
+    eps_value = 2
     
     # DBSCAN clustering
     dbscan = DBSCAN(eps=eps_value, min_samples=2)
@@ -87,11 +88,14 @@ def apply_pca_to_weights(client_weights, client_ids, rnd, flagged_malicious_clie
     print(label_counts, eps_value)
     
     if len(label_counts) > 1:
-        smallest_cluster_size = min(label_counts.values())
-        outlier_labels = [label for label, count in label_counts.items() 
-                         if count == smallest_cluster_size]
-        outliers = [client_ids[i] for i, label in enumerate(cluster_labels) 
-                  if label in outlier_labels]
+        # smallest_cluster_size = min(label_counts.values())
+        # outlier_labels = [label for label, count in label_counts.items() 
+        #                  if count == smallest_cluster_size]
+        # outliers = [client_ids[i] for i, label in enumerate(cluster_labels) 
+        #           if label in outlier_labels]
+        largest_cluster_size = max(label_counts.values())
+        outlier_labels = [label for label, count in label_counts.items() if count == largest_cluster_size]
+        outliers = [client_ids[i] for i,label in enumerate(cluster_labels) if label not in outlier_labels]
     else:
         outlier_labels = []
         outliers = []
