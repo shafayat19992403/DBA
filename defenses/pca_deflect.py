@@ -74,7 +74,7 @@ def apply_pca_to_weights(client_weights, client_ids, rnd, flagged_malicious_clie
     
     # Dynamic epsilon based on previous detections
     # eps_value = 1.2 if len(flagged_malicious_clients) > 0 else 1
-    eps_value = 2
+    eps_value = 200
     
     # DBSCAN clustering
     dbscan = DBSCAN(eps=eps_value, min_samples=2)

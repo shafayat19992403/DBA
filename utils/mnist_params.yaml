@@ -16,17 +16,18 @@ aggr_epoch_interval: 1 # aggregate every round
 aggregation_methods: "mean"
 geom_median_maxiter: 10
 fg_use_memory: true
-participants_namelist: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-no_models: 10
+participants_namelist:
+  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+no_models: 20
 number_of_total_participants: 100
 is_random_namelist: false
 is_random_adversary: false
 is_poison: true
 
 sampling_dirichlet: false
-dirichlet_alpha: 5000
+dirichlet_alpha: 500
 baseline: false # single-shot: false; multi-shot:true
-scale_weights_poison: 100
+scale_weights_poison: 200
 #global lr:
 eta: 0.1 # single-shot: 0.1; multi-shot: 1
 
@@ -46,10 +47,10 @@ trigger_num: 4
 3_poison_pattern: [[3, 6], [3, 7], [3, 8], [3, 9]]
 
 # single shot - distributed attack:
-0_poison_epochs: [5]
-1_poison_epochs: [6]
-2_poison_epochs: [7]
-3_poison_epochs: [8]
+0_poison_epochs: [12, 25]
+1_poison_epochs: [14, 27]
+2_poison_epochs: [16, 29]
+3_poison_epochs: [18, 31]
 
 #single shot - centralized attack:
 #0_poison_epochs: [18]
