@@ -200,24 +200,24 @@ class ImageHelper(Helper):
             #         # transforms.Normalize((0.1307,), (0.3081,))
             #     ]))
 
-            # self.train_dataset = datasets.EMNIST('./data',split='digits', train=True, download=True,
-            #                    transform=transforms.Compose([
-            #                        transforms.ToTensor(),
-            #                        # transforms.Normalize((0.1307,), (0.3081,))
-            #                    ]))
-            # self.test_dataset = datasets.EMNIST('./data',split='digits', train=False, transform=transforms.Compose([
-            #         transforms.ToTensor(),
-            #         # transforms.Normalize((0.1307,), (0.3081,))
-            #     ]))
-            self.train_dataset = datasets.FashionMNIST('./data', train=True, download=True,
+            self.train_dataset = datasets.EMNIST('./data',split='digits', train=True, download=True,
                                transform=transforms.Compose([
                                    transforms.ToTensor(),
                                    # transforms.Normalize((0.1307,), (0.3081,))
                                ]))
-            self.test_dataset = datasets.FashionMNIST('./data', train=False, transform=transforms.Compose([
+            self.test_dataset = datasets.EMNIST('./data',split='digits', train=False, transform=transforms.Compose([
                     transforms.ToTensor(),
                     # transforms.Normalize((0.1307,), (0.3081,))
                 ]))
+            # self.train_dataset = datasets.FashionMNIST('./data', train=True, download=True,
+            #                    transform=transforms.Compose([
+            #                        transforms.ToTensor(),
+            #                        # transforms.Normalize((0.1307,), (0.3081,))
+            #                    ]))
+            # self.test_dataset = datasets.FashionMNIST('./data', train=False, transform=transforms.Compose([
+            #         transforms.ToTensor(),
+            #         # transforms.Normalize((0.1307,), (0.3081,))
+            #     ]))
           
         elif self.params['type'] == config.TYPE_TINYIMAGENET:
 

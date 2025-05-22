@@ -32,7 +32,8 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 logger = logging.getLogger("logger")
 # logger.setLevel("ERROR")
 
-vis = visdom.Visdom(port=8098)
+if config.vis_train:
+    vis = visdom.Visdom(port=8098)
 criterion = torch.nn.CrossEntropyLoss()
 torch.manual_seed(1)
 torch.cuda.manual_seed(1)
